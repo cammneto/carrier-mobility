@@ -1,2 +1,6 @@
 # electronic-mobility
-Code to calculate electronic mobility in organic semi conductors dimers.
+Code to calculate electronic mobility in organic semi conductors dimers using gaussian09 output files.
+
+In order to use this code you need to download and compile another software from github to calculate the electronic couplings and follow a naming and location pattern for the input files.
+
+Link for the software for calculating the electronic couplings: https://github.com/JoshuaSBrown/QC_Tools
