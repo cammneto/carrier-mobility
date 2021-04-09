@@ -6,4 +6,4 @@ In order to use this code you need to download and compile another code from git
 Link for the software for calculating the electronic couplings: https://github.com/JoshuaSBrown/QC_Tools
 
 **Citing**
-If you use this code to get values for a paper it would be nice a citation. This code is related to the paper https://doi.org/10.1016/j.cplett.2020.138226, so for citing it use this paper as citation.
+If you use this code to get values for a paper it would be nice a citation. To cite this code use the paper related to it: https://doi.org/10.1016/j.cplett.2020.138226
