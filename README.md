@@ -1,5 +1,5 @@
 # carrier-mobility
-Code to calculate carrier mobility in organic semi conductors dimers using gaussian09 output files.
+Code to calculate carrier mobility in organic semi conductors dimers using gaussian09 output files by Marcus-Hush and Marcus-levitch-Jortner models.
 
 In order to use this code you need to download and compile another code from github to calculate the electronic couplings and follow a naming and location pattern for the input files.
 
