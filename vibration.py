@@ -2,16 +2,6 @@
 import numpy as np
 from scipy import constants as spc
 
-
-#np.set_printoptions(precision=4)
-#system  = 'os-c3'
-#log = 'inputs/'+system+'/dis-'+system+'.log'
-#
-#log1 = 'inputs/'+system+'/dis-'+system+'-ani'+'.log'
-#
-#print('\n','Reading', log)
-#print('\n','Reading', log1)
-
 ##############################################################################################################################################################
 c=spc.c*2*spc.pi*100
 kb=spc.value(u'Boltzmann constant in eV/K')
@@ -50,24 +40,3 @@ def shift(dispFile):
         shift[i] = float(shift[i].replace('D',"E"))
     dQ = np.asarray(shift)*bohrme
     return dQ
-
-
-#print(shift(log1))
-##############################################################################################################################################################
-#W = freq(log)
-#dQ = shift(log)
-#Si=((dQ**2)*W)/(2*spc.hbar)
-#weff=np.sum(Si*W)/np.sum(Si)
-##print('\n',' Effective Frequency (\u03C9eff)','\n','\u03C9eff =', round(weff/c,4),'cm-\N{SUPERSCRIPT ONE}')
-#dQ1 = shift(log1)
-#W1 = freq(log1)
-#Si1=((dQ1**2)*W1)/(2*spc.hbar)
-#weff1=np.sum(Si1*W1)/np.sum(Si1)
-#print('\n',' Effective Frequency (\u03C9eff)','\n','\u03C9eff =', round(weff1/c,4),'cm-\N{SUPERSCRIPT ONE}')
-##############################################################################################################################################################
-#li0=np.sum(Si*hbar*W)
-#print(li0)
-#li1=np.sum(Si1*hbar*W1)
-#print(li1)
-#li=li0+li1
-#print('\n',' Vibronic Internal Reorganization Energy (\u03BBv) ','\n','\u03BBv =',round(li,4),'eV')
