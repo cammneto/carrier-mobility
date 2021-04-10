@@ -1,28 +1,49 @@
-#!/bin/python
+#!/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Author: Carlos A M de Melo Neto
+# Contact: cammneto@gmail.com
+
 import sys
 import numpy as np
-import subprocess
 from scipy import constants as spc
 from math import factorial as fct
-from mtools import centerDistance as R_vec
+from mtools import *
 from vibration import *
 
 np.set_printoptions(precision=4)
-system  = 'ss-c3'
-dim_ty  = 'q'
-orb_ty1 = 'LUMO'
-orb_ty2 = 'LUMO'
-log = 'inputs/'+system+'/dis-'+system+'.log'
-log1 = 'inputs/'+system+'/dis-'+system+'-ani.log'
-xyzfile = 'inputs/'+system+'/'+system+'-'+dim_ty+'.xyz'
-print('\n',system, 'dimer', dim_ty,'\n','Reading', log,'\n','Reading', log1,'\n','Reading', xyzfile)
+
+### naming pattern ###
+files_folder = 'example/'   ### Folder containing input files inside the 2 input folders
+mol_name = 'ethylene'         ###  Name of your files without extensions in quotes ''
+dimer = '0'                 ###  Choose a name for your dimers in quots ''. Dimer orientation on the crystal or center distance for example.
+### Files to be read. No need to edit this section, just follow naming pattern section ###
+xyzfile = 'transfer_rates_inputs/'+files_folder+mol_name+'-'+dimer+'-dimer.xyz'  ###  Dimer structure .xyz
+log     = 'transfer_rates_inputs/'+files_folder+mol_name+'-neutral-displacement.log'    ###  Gaussian Log  File for neutral state
+log1    = 'transfer_rates_inputs/'+files_folder+mol_name+'-anion-displacement.log'      ###  Gaussian Log  File for anionic state
+#log1    = 'transfer_rates_inputs/'+files_folder+mol_name+'-cation.log'    ###  Gaussian Log  File for cationic state
+pun_file   = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-dimer.pun" ###  Dimer pun file for CATNIP
+pun_file_1 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m1.pun"    ###  1st monomer pun file for CATNIP
+pun_file_2 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m2.pun"    ###  2nd monomer pun file for CATNIP
+
+print('\n','Open Files','\n',log,'\n',log1,'\n',xyzfile,'\n',pun_file,'\n',pun_file_1,'\n',pun_file_2)
+
+### Choose orbital for coupling calculation with CATNIP
+orb_ty_1 = 'LUMO'                                           ###  1st orbital chosen for coupling (ex: LUMO, HOMO...)
+orb_ty_2 = 'LUMO'                                           ###  2nd orbital chosen for coupling (ex: LUMO, HOMO...)
+
+### Constants ###
 c = spc.c*2*spc.pi*100
 kb = spc.value(u'Boltzmann constant in eV/K')
 hbar = spc.value(u'Planck constant over 2 pi in eV s')
-bohrme = (spc.value('Bohr radius')*(np.sqrt(spc.m_e)))#5.2917721067e-11
-T  = 296
-G0 = 0
-ls = 0.004 #sample external reorganization energy in eV.
+bohrme = (spc.value('Bohr radius')*(np.sqrt(spc.m_e)))
+
+### Defined Variables ###
+T  = 298    ### Temperature in Kelvin
+G0 = 0      ### Gibbs free energy
+ls = 0.004  ### Type here your sample external reorganization energy in eV.
+
+### Computed Variables
 W  = freq(log)
 dQ = shift(log)
 Si=((dQ**2)*W)/(2*spc.hbar)
@@ -30,21 +51,18 @@ weff=np.sum(Si*W)/np.sum(Si)
 W1 = freq(log1)
 dQ1 = shift(log1)
 Si1=((dQ1**2)*W1)/(2*spc.hbar)
-print('\n','Number of Normal Modes (n) ','\n' ,'n =',n,'\n','Frequencies (\u03C9i) ','\n','\u03C9i =',W,'\n','Reduced Masses (\u03BCi) ','\n','\u03BCi =', mu)
-print('\n','Shift Vector (dQ) times sqrt(\u03BCi) ','\n','dQ*sqrt(\u03BC) =',dQ,'\n',' Effective Frequency (\u03C9eff)','\n','\u03C9eff =', round(weff/c,4),'cm-\N{SUPERSCRIPT ONE}')
+n = len(W)
+print('\n','Frequencies (\u03C9i) ','\n','\u03C9i =',W)
+print('\n','Shift Vector (dQ) times sqrt(\u03BCi) ','\n','dQ*sqrt(\u03BC) =',dQ)
+print('\n','Effective Frequency (\u03C9_eff)','\n','\u03C9_eff =', round(weff/c,4),'cm-\N{SUPERSCRIPT ONE}')
 lv0=np.sum(Si*hbar*W)
 lv1=np.sum(Si1*hbar*W1)
 lv=lv0+lv1
-print('\n',' Vibronic Internal Reorganization Energy (\u03BBv) ','\n','\u03BBv =',round(lv,4),'eV')
-print('\n', 'Calculating electronic coupling...')
-args = ("./calc_J", "-p_1", 'inputs/'+system+'/'+system+'-'+dim_ty+"m1.pun", '-orb_ty_1', orb_ty1, '-p_2', 'inputs/'+system+'/'+system+'-'+dim_ty+'m2.pun', '-orb_ty_2', orb_ty2, '-p_P', 'inputs/'+system+'/'+system+'-'+dim_ty+'.pun')
-popen = subprocess.Popen(args, stdout=subprocess.PIPE)
-popen.wait()
-output = popen.stdout.read()
-Jeff = output.split()[-3:]
-outline = output.splitlines()
-print('\n','Electronic Coupling (H_ad)','\n','H_ad =',(float(Jeff[1]))*1000, 'eV')
-Had=float(Jeff[1])**2
+print('\n',' Vibronic Internal Reorganization Energy (\u03BBv) ','\n','\u03BB_v =',round(lv,4),'eV')
+J_eff=CATNIP(pun_file_1,orb_ty_1,pun_file_2,orb_ty_2,pun_file)### Calling CATNIP to compute transfer integral (J_eff) between orbitals defined in begining of this file.
+
+### MLJ calculation
+Had=float(J_eff[1])**2
 SOMA = 0
 C = spc.pi/(hbar*np.sqrt(spc.pi*kb*T*ls))
 S = lv/(hbar*weff)
@@ -55,17 +73,18 @@ for ni in range(len(W)):
     S3d = 4*ls*kb*T
     S3 = np.exp(-S3n/S3d)
     SOMA += S2*S3
-Kmlj=C*Had*S1*SOMA
+K_mlj=C*Had*S1*SOMA
+### Semi-Classical Marcus (SCM) calculation
 lamb=lv+ls
 Cm = 2*spc.pi/(hbar*np.sqrt(4*spc.pi*lamb*kb*T))
 Smn=(lamb-G0)**2
 Smd=(4*lamb*kb*T)
 Sm=np.exp(-Smn/Smd)
-Kmarcus=Cm*Had*Sm
-ket=np.array([Kmarcus,Kmlj])
-print('\n','Marcus and MJL rates respectivelly','\n',ket,'s-\N{SUPERSCRIPT ONE}')
-R = R_vec(xyzfile)
+K_scm=Cm*Had*Sm
+ket=np.array([K_scm,K_mlj])
+print('\n','SCM and MJL rates respectivelly','\n',ket,'s-\N{SUPERSCRIPT ONE}')
+R = centerDistance_vec(xyzfile)
 d = np.sqrt((R[0]**2)+(R[1]**2)+(R[2]**2))/10**8
 print('\n','Site Distance =',round(d*10**8,4),'Angstrons')
 mob=(spc.e*ket*(d**2))/(2*spc.k*T)
-print('\n','Marcus and MJL mobilities respectivelly','\n',mob,'cm\u00b2 V-\N{SUPERSCRIPT ONE} s-\N{SUPERSCRIPT ONE}', 'for T =', T, 'K')
+print('\n','SCM and MJL mobilities respectivelly','\n',mob,'cm\u00b2 V-\N{SUPERSCRIPT ONE} s-\N{SUPERSCRIPT ONE}', 'for T =', T, 'K')

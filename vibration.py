@@ -1,4 +1,9 @@
-#!/bin/python
+#!/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Author: Carlos A M de Melo Neto
+# Contact: cammneto@gmail.com
+
 import numpy as np
 from scipy import constants as spc
 
@@ -19,6 +24,7 @@ def freq(dispFile):
         if "Frequencies --" in line:
             freqs.extend([float(i) for i in line.split()[-3:]])
     W  = np.asarray(freqs[:int(len(freqs)/3)])*c
+    #print('\n Frequencies (W)','\n W =',W)
     return W
 
 def shift(dispFile):
@@ -39,4 +45,6 @@ def shift(dispFile):
     for i in range(len(shift)):
         shift[i] = float(shift[i].replace('D',"E"))
     dQ = np.asarray(shift)*bohrme
+    #print('\n','dQ=',dQ)
+    #print('\n','Reduced Masses (\u03BCi) ','\n','\u03BCi =', mu)
     return dQ
