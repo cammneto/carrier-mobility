@@ -8,8 +8,7 @@ import sys
 import numpy as np
 from scipy import constants as spc
 from math import factorial as fct
-from mtools import *
-from vibration import *
+from cmtools import *
 
 np.set_printoptions(precision=4)
 
@@ -36,7 +35,7 @@ orb_ty_2 = 'LUMO'                                           ###  2nd orbital cho
 c = spc.c*2*spc.pi*100
 kb = spc.value(u'Boltzmann constant in eV/K')
 hbar = spc.value(u'Planck constant over 2 pi in eV s')
-bohrme = (spc.value('Bohr radius')*(np.sqrt(spc.m_e)))
+bohrme = spc.value('Bohr radius')*(np.sqrt(spc.m_e))
 
 ### Defined Variables ###
 T  = 298    ### Temperature in Kelvin
@@ -81,8 +80,10 @@ Smn=(lamb-G0)**2
 Smd=(4*lamb*kb*T)
 Sm=np.exp(-Smn/Smd)
 K_scm=Cm*Had*Sm
+### Array with transfer rates
 ket=np.array([K_scm,K_mlj])
 print('\n','SCM and MJL rates respectivelly','\n',ket,'s-\N{SUPERSCRIPT ONE}')
+### Carrier Mobility
 R = centerDistance_vec(xyzfile)
 d = np.sqrt((R[0]**2)+(R[1]**2)+(R[2]**2))/10**8
 print('\n','Site Distance =',round(d*10**8,4),'Angstrons')
