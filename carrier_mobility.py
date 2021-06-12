@@ -20,7 +20,6 @@ dimer = '0'                 ###  Choose a name for your dimers in quots ''. Dime
 xyzfile = 'transfer_rates_inputs/'+files_folder+mol_name+'-'+dimer+'-dimer.xyz'  ###  Dimer structure .xyz
 log     = 'transfer_rates_inputs/'+files_folder+mol_name+'-neutral-displacement.log'    ###  Gaussian Log  File for neutral state
 log1    = 'transfer_rates_inputs/'+files_folder+mol_name+'-anion-displacement.log'      ###  Gaussian Log  File for anionic state
-#log1    = 'transfer_rates_inputs/'+files_folder+mol_name+'-cation.log'    ###  Gaussian Log  File for cationic state
 pun_file   = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-dimer.pun" ###  Dimer pun file for CATNIP
 pun_file_1 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m1.pun"    ###  1st monomer pun file for CATNIP
 pun_file_2 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m2.pun"    ###  2nd monomer pun file for CATNIP
