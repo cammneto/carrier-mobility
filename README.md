@@ -7,7 +7,3 @@ Software for transfer integral calculations link: https://github.com/JoshuaSBrow
 
 **Citing**
 If you use this code to get values for a paper it would be nice if you cited the original paper https://doi.org/10.1016/j.cplett.2020.138226 related to this code.
-
-HOW TO
-Runing the code needs some gaussian log files and these files needs to addressed in the code.
-In the exemple provided
