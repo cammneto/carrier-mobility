@@ -12,17 +12,14 @@ from cmtools import *
 
 np.set_printoptions(precision=4)
 
-### naming pattern ###
-files_folder = 'example/'   ### Folder containing input files inside the 2 input folders
-mol_name = 'ethylene'         ###  Name of your files without extensions in quotes ''
-dimer = '0'                 ###  Choose a name for your dimers in quots ''. Dimer orientation on the crystal or center distance for example.
-### Files to be read. No need to edit this section, just follow naming pattern section ###
-xyzfile = 'transfer_rates_inputs/'+files_folder+mol_name+'-'+dimer+'-dimer.xyz'  ###  Dimer structure .xyz
-log     = 'transfer_rates_inputs/'+files_folder+mol_name+'-neutral-displacement.log'    ###  Gaussian Log  File for neutral state
-log1    = 'transfer_rates_inputs/'+files_folder+mol_name+'-anion-displacement.log'      ###  Gaussian Log  File for anionic state
-pun_file   = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-dimer.pun" ###  Dimer pun file for CATNIP
-pun_file_1 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m1.pun"    ###  1st monomer pun file for CATNIP
-pun_file_2 = "catnip_inputs/"+files_folder+mol_name+'-'+dimer+"-m2.pun"    ###  2nd monomer pun file for CATNIP
+### carrier mobility input files ###
+xyzfile = 'ethylene-0-dimer.xyz'                ###  Path of geometry file .xyz
+log     =  'ethylene-neutral-displacement.log'  ###  Path of neutral to excited displacement Gaussian .log  file
+log1    =  'ethylene-anion-displacement.log'    ###  Path of excited to neutral displacement Gaussian .log  file
+### CATNIP input files ### For more details check CATNIP page
+pun_file   = 'ethylene-0-dimer.pun'             ###  Path of Dimer pun file for CATNIP
+pun_file_1 = 'ethylene-0-m1.pun'                ###  Path of 1st monomer pun file for CATNIP
+pun_file_2 = 'ethylene-0-m2.pun'                ###  Path of 2nd monomer pun file for CATNIP
 
 print('\n','Open Files','\n',log,'\n',log1,'\n',xyzfile,'\n',pun_file,'\n',pun_file_1,'\n',pun_file_2)
 
