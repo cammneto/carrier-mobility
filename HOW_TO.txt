@@ -1,0 +1,4 @@
+
+# HOW TO
+Runing the code needs some gaussian log files and these files needs to addressed in the code.
+In the exemple provided
