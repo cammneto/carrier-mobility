@@ -7,6 +7,7 @@
 import numpy as np
 import pandas as pd
 import subprocess
+from scipy import constants as spc
 np.set_printoptions(precision=5)
 
 def importXYZGeom(fileName):
@@ -39,6 +40,44 @@ def centerDistance_vec(fileName):
     mol2.index = mol2.index + 1
     R = centerOFmass(mol1) - centerOFmass(mol2)
     return R
+
+def readFile(dispFile):
+    infile = open(dispFile, "r")
+    return infile
+
+def freq(dispFile):
+    c=spc.c*2*spc.pi*100
+    f=readFile(dispFile)
+    freqs=[]
+    for line in f:
+        if "Frequencies --" in line:
+            freqs.extend([float(i) for i in line.split()[-3:]])
+    W  = np.asarray(freqs[:int(len(freqs)/3)])*c
+    #print('\n Frequencies (W)','\n W =',W)
+    return W
+
+def shift(dispFile):
+    bohrme = (spc.value('Bohr radius')*(np.sqrt(spc.m_e)))
+    f=readFile(dispFile)
+    masses=[]
+    shift=[]
+    for line in f:
+        if line.find("Red. masses --") != -1:
+            masses.extend([float(i) for i in line.split()[-3:]])
+        if line.find("Shift") != -1:
+            for line in f:
+                if line.find("1") != -1:
+                    for line in f:
+                        if line.find('0') != -1:
+                            shift.extend(line.split()[-1:])
+        mu = np.asarray(masses[:int(len(masses)/3)])
+        shift = shift[:int(len(mu))]
+    for i in range(len(shift)):
+        shift[i] = float(shift[i].replace('D',"E"))
+    dQ = np.asarray(shift)*bohrme
+    #print('\n','dQ=',dQ)
+    #print('\n','Reduced Masses (\u03BCi) ','\n','\u03BCi =', mu)
+    return dQ
 
 def CATNIP(pun_file_1,orb_ty_1,pun_file_2,orb_ty_2,pun_file):
     print('\n', 'Calculating electronic coupling...')
