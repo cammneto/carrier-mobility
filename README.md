@@ -6,7 +6,7 @@ In order to run this code you need to download and compile other code also from 
 For the transfer integral software go to [CATNIP](https://github.com/JoshuaSBrown/QC_Tools).
 
 ## Citing
-If you use this code to get values for a paper it would be nice if you cited the original paper related to this code. [PAPER](https://doi.org/10.1016/j.cplett.2020.138226)
+If you use this code to get values for a paper it would be nice if you cited the original [PAPER](https://doi.org/10.1016/j.cplett.2020.138226) related to this code.
 
 
 ## Preparing input files
@@ -65,7 +65,7 @@ H	-1.242623	-0.934806	0.000000
 
 ### Displacement vector files
 With geometry optimizations converged we need to calculate the displacement vector in both directions, from neutral to anion and anion to neutral:
-The input from neutral to anion is the ethylene-neutral-displacement.com:
+"ethylene-neutral-displacement.com"
 
 ```
 %NProcShared=4
@@ -103,7 +103,8 @@ anion.chk
 
 ```
 
-and from anion to neutral is ethylene-anion-displacement.com:
+and from anion to neutral:
+"ethylene-anion-displacement.com"
 
 ```
 %NProcShared=4
