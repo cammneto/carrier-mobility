@@ -36,7 +36,7 @@ bohrme = spc.value('Bohr radius')*(np.sqrt(spc.m_e))
 ### Defined Variables ###
 T  = 298    ### Temperature in Kelvin
 G0 = 0.00   ### Gibbs free energy
-ls = 0.00   ### Type here your sample external reorganization energy in eV.
+ls = 0.04   ### Type here your sample external reorganization energy in eV.
 
 ### Computed Variables
 W  = freq(log)
