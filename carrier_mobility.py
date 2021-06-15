@@ -54,7 +54,8 @@ lv0=np.sum(Si*hbar*W)
 lv1=np.sum(Si1*hbar*W1)
 lv=lv0+lv1
 print('\n',' Vibronic Internal Reorganization Energy (\u03BBv) ','\n','\u03BB_v =',round(lv,4),'eV')
-J_eff=CATNIP(pun_file_1,orb_ty_1,pun_file_2,orb_ty_2,pun_file)### Calling CATNIP to compute transfer integral (J_eff) between orbitals defined in begining of this file.
+print('Calling CATNIP to compute transfer integral (J_eff) between '+orb_ty_1+' and '+orb_ty_2) #orbitals defined in begining of this file.
+J_eff=CATNIP(pun_file_1,orb_ty_1,pun_file_2,orb_ty_2,pun_file)
 
 ### MLJ calculation
 Had=float(J_eff[1])**2
